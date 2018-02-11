@@ -8,7 +8,7 @@ To be able to run this external adaptor, you need [Docker](docker.com) installed
 This adaptor is published on the public docker hub, so you just need to run the two following commands:
 ```bash
 docker pull linkpoolio/iota-cl-ea
-docker run -t -p 8080:8080 -e HOST=<NODE_HOST> -e PORT=<NODE_PORT> linkpoolio/xml-cl-ea
+docker run -t -p 8080:8080 linkpoolio/xml-cl-ea
 ```
 
 ## Using the Adaptor
@@ -20,9 +20,9 @@ Should result in something similar to the following:
 ```json
 {
 "context": "/contexts/Book",
-"hydra:member": [], // 30 items
+"hydra:member": [],
 "hydra:totalItems": 107,
-"hydra:view": {}, // 5 items
+"hydra:view": {},
 "id": "/books",
 "type": "hydra:Collection"
 }
