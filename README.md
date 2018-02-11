@@ -14,17 +14,22 @@ docker run -t -p 8080:8080 linkpoolio/xml-cl-ea
 ## Using the Adaptor
 To ensure that the adaptor is working properly, the following call:
 
-> http://localhost:8080/xmltojson?endpoint=https://demo.api-platform.com/books
+> http://localhost:8080/xmltojson?endpoint=http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList
 
 Should result in something similar to the following:
 ```json
 {
-"context": "/contexts/Book",
-"hydra:member": [],
-"hydra:totalItems": 107,
-"hydra:view": {},
-"id": "/books",
-"type": "hydra:Collection"
+"body": {
+        "-copyright": "All data copyright agencies listed below and NextBus Inc 2018.",
+        "agency": [
+            {
+                "-tag": "string",
+                "-title": "string",
+                "-shortTitle": "string",
+                "-regionTitle": "string"
+            }
+        ]
+    }
 }
 ```
 

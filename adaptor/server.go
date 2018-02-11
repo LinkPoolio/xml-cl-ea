@@ -32,14 +32,17 @@ func ConvertEndpoint(w rest.ResponseWriter, r *rest.Request) {
 	}
 
 	// Request the API
-	rs, err := http.Get(endpoint)
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", endpoint, nil)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	req.Header.Add("accept", "application/xml")
+	resp, err := client.Do(req)
 
 	// Read the body of the request
-	bodyBytes, err := ioutil.ReadAll(rs.Body)
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -52,13 +55,9 @@ func ConvertEndpoint(w rest.ResponseWriter, r *rest.Request) {
 		return
 	}
 
-	// Replace the escaped backslashes and the XML at symbols
-	replaced := strings.Replace(rawJSON.String(), "\\", "", -1)
-	replaced = strings.Replace(replaced, "\"@", "\"", -1)
-
 	//Convert string into golang map, prep for JSON output
 	var jsonMap map[string]*json.RawMessage
-	err = json.Unmarshal([]byte(trimQuotes(replaced)), &jsonMap)
+	err = json.Unmarshal([]byte(trimQuotes(rawJSON.String())), &jsonMap)
 	if err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
